@@ -4,7 +4,10 @@ import Board from "./Board";
 const Game = () => {
   let [size, setSize] = useState(0);
 
-  const handleChange = event => {
+  let handleChange = event => {
+    if (setSize === null) {
+      return;
+    }
     if (
       event.currentTarget.value &&
       event.currentTarget.value <= 10 &&
@@ -16,20 +19,31 @@ const Game = () => {
     }
   };
 
+  var sheet = (() => {
+    var style = document.createElement("style");
+    style.appendChild(document.createTextNode(""));
+    document.head.appendChild(style);
+    return style.sheet;
+  })();
+
+  const handleClick = () => {
+    setSize = null;
+    sheet.insertRule("span {visibility: hidden");
+  };
+
   let content = (
     <div className="game">
       <div className="game-board">
         <span>
-          {"Set board size: "}
+          {"Set board size (3-10): "}
           <input
-            type="number"
-            min="3"
-            max="10"
+            type="phone"
             style={{
-              width: "50px"
+              width: "30px"
             }}
             onChange={handleChange}
           />
+          <button onClick={() => handleClick()}>Start game</button>
         </span>
         <Board size={size} />
       </div>

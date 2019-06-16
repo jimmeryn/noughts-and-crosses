@@ -7,11 +7,7 @@ const Board = props => {
   let [playerTurn, setPlayerTurn] = useState(true);
 
   const calculateWinner = squares => {
-    if (squares.every(e => e !== null) === true) {
-      console.log("tie");
-      return null;
-    }
-
+    //change that to recursive check
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -23,18 +19,42 @@ const Board = props => {
       [2, 4, 6]
     ];
 
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[a] === squares[c]
-      ) {
-        return squares[a];
+    // console.log(squares);
+    ///
+    let result = [];
+    for (let x = 0; x < size; x++) {
+      for (let i = size * x; i < size * x + size - 2; ++i) {
+        for (let j = 0; j < 3; j++) {
+          result.push(squares[i + j]);
+        }
+        if (
+          result[0] !== undefined &&
+          result.every(e => e === result[0]) === true
+        ) {
+          return result[0];
+        }
+        result = [];
       }
     }
-    console.log(`nothing`);
+    ///
 
+    // for (let i = 0; i < lines.length; i++) {
+    //   const [a, b, c] = lines[i];
+    //   if (
+    //     squares[a] &&
+    //     squares[a] === squares[b] &&
+    //     squares[a] === squares[c]
+    //   ) {
+    //     return squares[a];
+    //   }
+    // }
+
+    if (
+      squares.filter(e => e === "X" || "O").length === squares.length &&
+      squares.length >= 3
+    ) {
+      return `tie`;
+    }
     return null;
   };
 
@@ -67,10 +87,14 @@ const Board = props => {
 
   const winner = calculateWinner(squares);
   let status;
-  if (winner) {
+  if (winner === "X" || winner === "O") {
     status = `Winner ${winner}`;
   } else {
-    status = "Next player: " + (playerTurn ? "X" : "O");
+    if (winner === "tie") {
+      status = `Tie`;
+    } else {
+      status = "Next player: " + (playerTurn ? "X" : "O");
+    }
   }
 
   return (
