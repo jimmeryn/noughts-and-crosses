@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+ * Defining each square on Board
+ *  @returns {button}
+ */
 const Square = props => {
   let squareContent = (
     <button
