@@ -4,7 +4,17 @@ import GameInfo from "./GameInfo";
 import Status from "./Status";
 
 /**
- * Main Game.
+ *  Sets style to given selector.
+ */
+const sheet = (() => {
+  let style = document.createElement("style");
+  style.appendChild(document.createTextNode(""));
+  document.head.appendChild(style);
+  return style.sheet;
+})();
+
+/**
+ * Main Game
  * Containing Board and all game functionality.
  */
 const Game = () => {
@@ -48,16 +58,6 @@ const Game = () => {
     setStepNumber(step);
     setPlayerTurn(step % 2 === 0);
   };
-
-  /**
-   *  Sets style to given selector.
-   */
-  const sheet = (() => {
-    let style = document.createElement("style");
-    style.appendChild(document.createTextNode(""));
-    document.head.appendChild(style);
-    return style.sheet;
-  })();
 
   /**
    *  Using insertRule to change span (start game opctions) visibility.
