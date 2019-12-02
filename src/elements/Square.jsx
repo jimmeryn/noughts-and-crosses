@@ -10,7 +10,7 @@ const Square = props => {
       className="square"
       style={{ cursor: "pointer" }}
       onClick={() => {
-        props.onClick();
+        props.squareClick();
       }}
     >
       {props.value}

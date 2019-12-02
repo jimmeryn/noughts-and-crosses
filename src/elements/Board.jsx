@@ -10,7 +10,7 @@ const Board = props => {
     <Square
       key={i}
       value={props.squares[i]}
-      onClick={() => props.handleClick(i)}
+      squareClick={() => props.squareClick(i)}
     />
   );
 
@@ -28,7 +28,7 @@ const Board = props => {
     );
   });
 
-  return <div>{arr}</div>;
+  return <div>{props.playerTurn != null ? arr : null}</div>;
 };
 
 export default Board;
