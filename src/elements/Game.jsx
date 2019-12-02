@@ -28,15 +28,16 @@ const Game = () => {
     const squares = getCurrent().slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
+    } else {
+      squares[i] = playerTurn ? "X" : "O";
+      setHistory(newHistory.concat([{ squares }]));
+      setSquares(squares);
+      setStepNumber(newHistory.length);
+      setPlayerTurn(!playerTurn);
+      checkStatus() === null
+        ? setStatus("Next player: " + (!playerTurn ? "X" : "O"))
+        : checkStatus();
     }
-    squares[i] = playerTurn ? "X" : "O";
-    setHistory(newHistory.concat([{ squares }]));
-    setSquares(squares);
-    setStepNumber(newHistory.length);
-    setPlayerTurn(!playerTurn);
-    checkStatus() === null
-      ? setStatus("Next player: " + (!playerTurn ? "X" : "O"))
-      : checkStatus();
   };
 
   /**
@@ -94,6 +95,9 @@ const Game = () => {
         return squares[a];
       }
     }
+    if (squares && squares.filter(e => e == null).length === 1) {
+      return "Draw";
+    }
   };
 
   /**
@@ -104,7 +108,7 @@ const Game = () => {
     if (winner === "X" || winner === "O") {
       setStatus(`Winner ${winner}`);
     } else {
-      if (winner === "draw") {
+      if (winner === "Draw") {
         setStatus(`Draw`);
       } else {
         setStatus("Next player: " + (!playerTurn ? "X" : "O"));
