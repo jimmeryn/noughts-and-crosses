@@ -37,16 +37,13 @@ const Game = () => {
     const newHistory = history.slice(0, stepNumber + 1);
     const squares = getCurrent().slice();
     if (calculateWinner(squares) || squares[i]) {
-      return;
     } else {
       squares[i] = playerTurn ? "X" : "O";
       setHistory(newHistory.concat([{ squares }]));
       setSquares(squares);
       setStepNumber(newHistory.length);
       setPlayerTurn(!playerTurn);
-      checkStatus() === null
-        ? setStatus("Next player: " + (!playerTurn ? "X" : "O"))
-        : checkStatus();
+      checkStatus(squares);
     }
   };
 
@@ -84,7 +81,6 @@ const Game = () => {
       [0, 4, 8],
       [2, 4, 6]
     ];
-
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (
@@ -95,7 +91,8 @@ const Game = () => {
         return squares[a];
       }
     }
-    if (squares && squares.filter(e => e == null).length === 1) {
+
+    if (squares && squares.filter(e => e == null).length === 0) {
       return "Draw";
     }
   };
@@ -103,10 +100,11 @@ const Game = () => {
   /**
    * Using checkWinner function to create status message.
    */
-  const checkStatus = () => {
+  const checkStatus = squares => {
     const winner = calculateWinner(squares);
     if (winner === "X" || winner === "O") {
       setStatus(`Winner ${winner}`);
+      return;
     } else {
       if (winner === "Draw") {
         setStatus(`Draw`);
